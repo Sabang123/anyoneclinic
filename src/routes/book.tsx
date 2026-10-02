@@ -90,7 +90,7 @@ function BookPage() {
                 </label>
               ))}
             </div>
-            <Err msg={errors.serviceId} />
+            <Err msg={errors["serviceId"]} />
           </fieldset>
         )}
 
@@ -100,7 +100,7 @@ function BookPage() {
             <label htmlFor="date" className="mt-4 block text-sm font-semibold">Date (Mon–Sat)</label>
             <input id="date" type="date" min={todayStr()} value={f.date} className="field mt-1 max-w-xs"
               onChange={(e) => { set("date", e.target.value); set("time", ""); }} />
-            <Err msg={errors.date} />
+            <Err msg={errors["date"]} />
             {f.date && !isSunday && (
               <fieldset className="mt-6">
                 <legend className="text-sm font-semibold">Time slot — {formatDate(f.date)}</legend>
@@ -119,28 +119,28 @@ function BookPage() {
               </fieldset>
             )}
             {isSunday && <p className="mt-3 text-sm text-destructive">We're closed on Sundays — please pick another day.</p>}
-            <Err msg={errors.time} />
+            <Err msg={errors["time"]} />
           </div>
         )}
 
         {step === 2 && (
           <div className="grid gap-4 sm:grid-cols-2">
             <h2 className="text-xl sm:col-span-2">Patient details</h2>
-            <Field id="name" label="Full name" err={errors.name} className="sm:col-span-2">
+            <Field id="name" label="Full name" err={errors["name"]} className="sm:col-span-2">
               <input id="name" className="field" value={f.name} onChange={(e) => set("name", e.target.value)} autoComplete="name" />
             </Field>
-            <Field id="age" label="Age" err={errors.age}>
+            <Field id="age" label="Age" err={errors["age"]}>
               <input id="age" type="number" inputMode="numeric" className="field" value={f.age} onChange={(e) => set("age", e.target.value)} />
             </Field>
-            <Field id="sex" label="Sex" err={errors.sex}>
+            <Field id="sex" label="Sex" err={errors["sex"]}>
               <select id="sex" className="field" value={f.sex} onChange={(e) => set("sex", e.target.value)}>
                 <option value="">Select…</option><option>Female</option><option>Male</option><option>Prefer not to say</option>
               </select>
             </Field>
-            <Field id="mobile" label="Mobile number" err={errors.mobile}>
+            <Field id="mobile" label="Mobile number" err={errors["mobile"]}>
               <input id="mobile" type="tel" placeholder="0917 123 4567" className="field" value={f.mobile} onChange={(e) => set("mobile", e.target.value)} autoComplete="tel" />
             </Field>
-            <Field id="email" label="Email (optional)" err={errors.email}>
+            <Field id="email" label="Email (optional)" err={errors["email"]}>
               <input id="email" type="email" className="field" value={f.email} onChange={(e) => set("email", e.target.value)} autoComplete="email" />
             </Field>
             <Field id="notes" label="Notes (optional)" className="sm:col-span-2">
@@ -179,10 +179,10 @@ function BookPage() {
   );
 }
 
-function Err({ msg }: { msg?: string }) {
+function Err({ msg }: { msg?: string | undefined }) {
   return msg ? <p role="alert" className="mt-2 text-sm font-medium text-destructive">{msg}</p> : null;
 }
-function Field({ id, label, err, className = "", children }: { id: string; label: string; err?: string; className?: string; children: React.ReactNode }) {
+function Field({ id, label, err, className = "", children }: { id: string; label: string; err?: string | undefined; className?: string; children: React.ReactNode }) {
   return (
     <div className={className}>
       <label htmlFor={id} className="mb-1 block text-sm font-semibold">{label}</label>
