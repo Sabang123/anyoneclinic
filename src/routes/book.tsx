@@ -5,7 +5,7 @@ import { SERVICES, TIME_SLOTS, isSlotFull, addBooking, formatDate, serviceName }
 
 export const Route = createFileRoute("/book")({
   validateSearch: (s: Record<string, unknown>): { service?: string } =>
-    typeof s.service === "string" ? { service: s.service } : {},
+    typeof s["service"] === "string" ? { service: s["service"] } : {},
   head: () => ({
     meta: [
       { title: "Book an Appointment — AnyoneClinic" },
@@ -37,20 +37,20 @@ function BookPage() {
 
   function validate(s: number) {
     const e: Record<string, string> = {};
-    if (s === 0 && !f.serviceId) e.serviceId = "Please choose a service to continue.";
+    if (s === 0 && !f.serviceId) e["serviceId"] = "Please choose a service to continue.";
     if (s === 1) {
-      if (!f.date) e.date = "Please pick a date.";
-      else if (f.date < todayStr()) e.date = "That date has already passed.";
-      else if (new Date(f.date + "T00:00:00").getDay() === 0) e.date = "We're closed on Sundays — please pick another day.";
-      if (!f.time) e.time = "Please choose an available time slot.";
+      if (!f.date) e["date"] = "Please pick a date.";
+      else if (f.date < todayStr()) e["date"] = "That date has already passed.";
+      else if (new Date(f.date + "T00:00:00").getDay() === 0) e["date"] = "We're closed on Sundays — please pick another day.";
+      if (!f.time) e["time"] = "Please choose an available time slot.";
     }
     if (s === 2) {
-      if (f.name.trim().length < 2) e.name = "Please enter your full name.";
+      if (f.name.trim().length < 2) e["name"] = "Please enter your full name.";
       const a = Number(f.age);
-      if (!f.age || !Number.isInteger(a) || a < 0 || a > 120) e.age = "Please enter a valid age (0–120).";
-      if (!f.sex) e.sex = "Please select your sex.";
-      if (!/^(09|\+639)\d{9}$/.test(f.mobile.replace(/[\s-]/g, ""))) e.mobile = "Enter a PH mobile number, e.g. 0917 123 4567.";
-      if (f.email && !/^\S+@\S+\.\S+$/.test(f.email)) e.email = "That email doesn't look right.";
+      if (!f.age || !Number.isInteger(a) || a < 0 || a > 120) e["age"] = "Please enter a valid age (0–120).";
+      if (!f.sex) e["sex"] = "Please select your sex.";
+      if (!/^(09|\+639)\d{9}$/.test(f.mobile.replace(/[\s-]/g, ""))) e["mobile"] = "Enter a PH mobile number, e.g. 0917 123 4567.";
+      if (f.email && !/^\S+@\S+\.\S+$/.test(f.email)) e["email"] = "That email doesn't look right.";
     }
     setErrors(e);
     return Object.keys(e).length === 0;

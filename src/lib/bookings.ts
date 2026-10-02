@@ -70,8 +70,8 @@ export function formatDate(d: string) {
 }
 
 export function toIcs(b: Booking) {
-  const [time, ampm] = b.time.split(" ");
-  let [h, m] = time.split(":").map(Number);
+  const [time = "0:00", ampm] = b.time.split(" ");
+  let [h = 0, m = 0] = time.split(":").map(Number);
   if (ampm === "PM" && h !== 12) h += 12;
   const start = `${b.date.replace(/-/g, "")}T${String(h).padStart(2, "0")}${String(m).padStart(2, "0")}00`;
   const endH = h + (m === 30 ? 1 : 0), endM = m === 30 ? 0 : 30;
